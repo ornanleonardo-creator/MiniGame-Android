@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.view.MotionEvent;
+import android.util.AttributeSet;
 import android.view.View;
 
 import java.util.Random;
@@ -28,10 +28,16 @@ public class GameView extends View {
 
     Random random = new Random();
 
-    public GameView(Context context) {
-        super(context);
+    // 👉 CONSTRUCTEUR POUR XML (IMPORTANT)
+    public GameView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        init();
+    }
+
+    // Init commun
+    private void init() {
         birdY = 500;
-        pipeX = 1000;
+        pipeX = 1200;
         gapY = 400;
 
         birdPaint.setColor(Color.YELLOW);
@@ -52,15 +58,13 @@ public class GameView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        // Background
         canvas.drawColor(Color.CYAN);
 
-        // Bird
         velocity += gravity;
         birdY += velocity;
+
         canvas.drawCircle(200, birdY, 40, birdPaint);
 
-        // Pipes
         pipeX -= 10;
         if (pipeX < -200) {
             pipeX = getWidth();
@@ -71,19 +75,17 @@ public class GameView extends View {
         canvas.drawRect(pipeX, 0, pipeX + 120, gapY, pipePaint);
         canvas.drawRect(pipeX, gapY + gapSize, pipeX + 120, getHeight(), pipePaint);
 
-        // Collision
         if (birdY < 0 || birdY > getHeight()
                 || (200 > pipeX && 200 < pipeX + 120
                 && (birdY < gapY || birdY > gapY + gapSize))) {
             gameOver = true;
         }
 
-        // Score
         canvas.drawText("Score: " + score, 50, 80, textPaint);
 
         if (gameOver) {
             canvas.drawText("GAME OVER", 200, getHeight() / 2, textPaint);
-            canvas.drawText("Tap to restart", 180, getHeight() / 2 + 80, textPaint);
+            canvas.drawText("Tap to restart", 160, getHeight() / 2 + 80, textPaint);
         } else {
             invalidate();
         }
@@ -97,4 +99,4 @@ public class GameView extends View {
         gameOver = false;
         invalidate();
     }
-                          }
+            }
