@@ -6,12 +6,17 @@ android {
     namespace "com.example.minigame"
     compileSdk 34
 
+    android {
+    namespace "com.example.monapp"
+    compileSdk 34
+
     defaultConfig {
-        applicationId "com.example.minigame"
+        applicationId "com.example.monapp"
         minSdk 21
         targetSdk 34
         versionCode 1
         versionName "1.0"
+    }
     }
 
     buildTypes {
